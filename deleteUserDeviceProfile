@@ -1,7 +1,7 @@
 if($cred -eq $null){$cred = Get-Credential} # Highly advise you create an account in CUCM with AXL previliges
 
 function getDeviceProfile {
-   param ([Parameter(Mandatory)][String]$user)
+   param ([Parameter(Mandatory)][String]$udp)
    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$TRUE}
 
 
@@ -14,7 +14,7 @@ $axl =@"
    <soapenv:Body>
       <ns:removeDeviceProfile sequence="?">
          <!--You have a CHOICE of the next 2 items at this level-->
-         <name>$user</name>
+         <name>$udp</name>
          <!--<uuid>?</uuid>-->
       </ns:removeDeviceProfile>
    </soapenv:Body>
@@ -43,8 +43,8 @@ foreach($profile in $file){
 # Target the user device profile you need to delete --> This is assuming you have an standard on building these
 # line 46 assumes you standardized naming convention by username_8865 for a Cisco 8865 IP phone, you can delete other device profiles in your environment too
 #>
-$user = $profile + "_8865"
-getDeviceProfile -user $user
+$udp = $profile + "_8865"
+getDeviceProfile -user $udp
 
     
 }
